@@ -1,0 +1,92 @@
+<title>FM Fusion Calculator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#0d0a06">
+<style>
+__CSS__
+</style>
+<div class="app">
+<header class="appbar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 34 34" aria-hidden="true"><path class="m1" d="M2 4h30L17 32Z"/><path class="m1" d="M13.4 24.5h7.2"/><path class="m1" d="M9 12.5c4.5-4.6 11.5-4.6 16 0-4.5 4.6-11.5 4.6-16 0Z"/><circle class="m2" cx="17" cy="12.5" r="2.4"/><path class="m1" d="M15.4 16.2l-1.2 3.2M18 16.4c0 1.8 1.2 2.6 2.6 2.2"/></svg>
+    <span class="brand-text"><span class="brand-kicker">Forbidden Memories</span><span class="brand-name">Fusion Calculator</span></span>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button id="tab-hand" role="tab" aria-controls="view-hand" type="button"><span class="tab-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="8" height="13" rx="1.5"/><rect x="13" y="4" width="8" height="13" rx="1.5"/></svg></span><span>Hand</span></button>
+    <button id="tab-look" role="tab" aria-controls="view-look" type="button"><span class="tab-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span><span>Lookup</span></button>
+    <button id="tab-deck" role="tab" aria-controls="view-deck" type="button"><span class="tab-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="7" width="12" height="14" rx="1.5"/><path d="M8 4h10.5A1.5 1.5 0 0 1 20 5.5V18"/></svg></span><span>Deck</span></button>
+  </nav>
+</header>
+
+<main>
+  <section id="view-hand" class="view" role="tabpanel" aria-labelledby="tab-hand">
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+      <input id="hand-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="hand-sug" aria-label="Add a card to your hand" placeholder="Add a card from your hand" autocomplete="off" enterkeyhint="done">
+      <ul id="hand-sug" class="sug" role="listbox" hidden></ul>
+    </div>
+    <div class="row-head">
+      <h2>Your hand <span id="hand-count" class="count"></span></h2>
+      <button id="hand-clear" class="btn text" type="button">Clear hand</button>
+    </div>
+    <p id="hand-ex" class="example-note" hidden>This is an example hand. Clear it and add the cards you're holding.</p>
+    <ul id="hand-list" class="chips"></ul>
+    <div id="res-head" class="row-head">
+      <h2 id="res-count"></h2>
+      <label class="sort">Sort
+        <select id="sort">
+          <option value="atk">Highest ATK</option>
+          <option value="def">Highest DEF</option>
+          <option value="cards">Fewest cards</option>
+        </select>
+      </label>
+    </div>
+    <div id="hand-results" class="stack"></div>
+  </section>
+
+  <section id="view-look" class="view" role="tabpanel" aria-labelledby="tab-look" hidden>
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+      <input id="look-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="look-sug" aria-label="Look up a card" placeholder="Look up any of the 722 cards" autocomplete="off" enterkeyhint="search">
+      <ul id="look-sug" class="sug" role="listbox" hidden></ul>
+    </div>
+    <div id="look-card" class="stack"></div>
+    <details class="fold" id="guide-fold">
+      <summary><span>Guardian Star guide</span><span class="fold-meta">Cycles and types</span><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+      <div id="guide" class="fold-body"></div>
+    </details>
+  </section>
+
+  <section id="view-deck" class="view" role="tabpanel" aria-labelledby="tab-deck" hidden>
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+      <input id="deck-search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="deck-sug" aria-label="Add a card to your deck" placeholder="Add a card to your deck" autocomplete="off" enterkeyhint="done">
+      <ul id="deck-sug" class="sug" role="listbox" hidden></ul>
+    </div>
+    <p id="deck-ex" class="example-note" hidden>This is an example deck. Clear it and add your own cards.</p>
+    <div id="deck-out" class="stack"></div>
+    <div class="row-head">
+      <h2>Your cards <span id="deck-count" class="count"></span></h2>
+      <button id="deck-clear" class="btn text" type="button">Clear deck</button>
+    </div>
+    <ul id="deck-list" class="dchips"></ul>
+    <details class="fold" id="paste-fold">
+      <summary><span>Paste a card list</span><span class="fold-meta">One per line</span><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></summary>
+      <div class="fold-body">
+        <label class="sr" for="deck-paste">Card list</label>
+        <textarea id="deck-paste" placeholder="2x Baby Dragon&#10;Time Wizard x2&#10;Kuriboh"></textarea>
+        <div class="paste-actions">
+          <button id="deck-paste-go" class="btn primary" type="button">Add cards</button>
+          <p id="deck-paste-msg" class="note" role="status"></p>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <p class="credit">Card data from the fan-made <a href="https://github.com/falsepopsky/YGO-FM-Database" target="_blank" rel="noopener">YGO FM Database</a> (GPL-3.0). Guardian Star wins give +500 ATK and DEF for that battle.</p>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<div id="peek" class="peek" aria-hidden="true" hidden></div>
+</div>
+<script>
+__JS__
+</script>
